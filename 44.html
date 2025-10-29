@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自動切換圖片範例</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  #mode {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div id="mode">模式偵測中...</div>
+<img id="mainImage" src="" alt="圖片顯示區">
+
+<script>
+  function updateImage() {
+    const modeText = document.getElementById('mode');
+    const mainImage = document.getElementById('mainImage');
+
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    const isPortrait = window.innerHeight > window.innerWidth;
+
+    let imageSrc = '';
+    let mode = '';
+
+    if (!isMobile) {
+      // 電腦
+      imageSrc = 'images/A.png';
+      mode = '電腦模式';
+    } else if (isMobile && isPortrait) {
+      // 手機直式
+      imageSrc = 'images/B.png';
+      mode = '手機直式模式';
+    } else {
+      // 手機橫式
+      imageSrc = 'images/C.png';
+      mode = '手機橫式模式';
+    }
+
+    mainImage.src = imageSrc;
+    modeText.textContent = mode;
+  }
+
+  // 初始載入
+  updateImage();
+
+  // 偵測方向變化
+  window.addEventListener('resize', updateImage);
+</script>
+
+</body>
+</html>
